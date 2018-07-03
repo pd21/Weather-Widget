@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Weather Widget</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<link rel="stylesheet" href="/home/stylemain.css" >
+	<link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
+</head>
+
+<body onload="startTime()">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+	<div class="weather-display">
+		<p id="name_city"><%=city%></p>
+		<div id="date"></div>
+		<div id="time"></div>
+
+		<div class="row">
+			<div class="col m4 temp"><%=weatherObject.currently.temperature%>&deg;C
+				<p><%= weatherObject.currently.icon%></p>
+			</div>
+
+			<%  var arr = ["rain","fog","clear-day","clear-night","wind","partly-cloudy-day","partly-cloudy-night"]; %>
+			<%  var images = ["/images/Rainy_Day.png","/images/fog.png","/images/clear_day.png","/images/clear_night.png","/images/wind.png","/images/partly_cloudy_day.png","/images/partly_cloudy_night.png"]; %>
+
+			<% for(var j=0 ; j < arr.length ; j++) { %>
+				<% if ( weatherObject.currently.icon == arr[j]) { %>
+					<div class="col m4 icon"><img src="<%=images[j]%>"  height="100px" width="100px"></div>
+				<% } %>
+			<% } %>
+
+			<div class="col m4 press_humid">
+				<div class="temp-attributes">Pressure : <%=weatherObject.currently.pressure %></div>
+				<div class="temp-attributes">Wind Speed : <%= weatherObject.currently.windSpeed%></div>
+				<div class="temp-attributes">Humidity: <%=weatherObject.currently.humidity%>  </div>
+			</div>
+		</div>
+
+		<% geticon = function(i){ %>
+			<%  var arr = ["rain","fog","clear-day","clear-night","partly-cloudy-day","partly-cloudy-night","wind","snow","cloudy"]; %>
+			<%  var images = ["/images/rain1.png","/images/fog1.png","/images/clear-day1.png","/images/clear_night1.png","/images/partly_cloudy_day.png","/images/pcloudynight.png","/images/wind.png","/images/snow1.png","/images/cloud.png"]; %>
+			<% for(var j=0 ; j < arr.length ; j++) { %>
+				<% if ( i == arr[j]) { %>
+					<br>
+					<div id="hourly_icon"><img src="<%=images[j]%>"  height="50px" width="50px"></div>
+				<% } %>
+			<% } %>
+		<% } %>
+
+		<div class="hourly">
+			<div class="row">
+				<div class="col m4 first">
+					After 1 hr...
+					<div style="font-size:0px;"> <%=weatherObject.hourly.data[0].icon%> </div>
+					<%geticon(weatherObject.hourly.data[0].icon)%>
+				</div>
+				<div class="col m4 second">
+					After 2 hr...
+					<div style="font-size:0px;"> <%=weatherObject.hourly.data[1].icon%> </div>
+					<%geticon(weatherObject.hourly.data[1].icon)%>
+				</div>
+				<div class="col m4 third">
+					After 3 hr...
+					<div style="font-size:0px;"> <%=weatherObject.hourly.data[2].icon%> </div>
+					<%geticon(weatherObject.hourly.data[2].icon)%>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="/home/home.js"></script>
+</body>
+</html>
